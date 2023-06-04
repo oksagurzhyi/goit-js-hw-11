@@ -23,7 +23,6 @@ export async function fetchImagies(q, page = 1) {
         per_page: 40,
       },
     });
-
     return data;
   } catch (error) {
     console.log(error);

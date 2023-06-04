@@ -11,8 +11,13 @@ export async function onFormSubmit(event) {
 
   refs.divGallery.innerHTML = '';
   const result = await fetchImagies(query);
-  //   console.log(result);
-  creatImagies(result);
+  console.log(result.totalHits);
+  if (result.totalHits === 0) {
+    console.log(`Sorry, we can't find ${query}`);
+    return;
+  } else {
+    creatImagies(result);
 
-  refs.btnMore.classList.remove('unvisible');
+    refs.btnMore.classList.remove('unvisible');
+  }
 }
