@@ -1,1 +1,34 @@
 @import '~node_modules/modern-normalize/modern-normalize.css';
+
+img {
+  width: 450px;
+  height: auto;
+  display: block;
+}
+
+.unvisible {
+  display: none;
+}
+.gallery {
+  margin-top: 40px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content: space-around;
+}
+
+.info {
+  padding: 0 10px;
+
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+  justify-content: space-between;
+}
+
+.search-form {
+  display: inline-block;
+  position: fixed;
+  top: 0;
+  text-align: center;
+}
