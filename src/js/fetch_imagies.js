@@ -1,6 +1,4 @@
 import axios from 'axios';
-import Notiflix from 'notiflix';
-import SimpleLightbox from 'simplelightbox';
 
 import 'simplelightbox/dist/simple-lightbox.min.css';
 
@@ -12,6 +10,7 @@ export async function fetchImagies(q, page = 1) {
     if (!q) {
       return;
     }
+
     const { data } = await axios({
       params: {
         key: API_KEY,
@@ -23,6 +22,7 @@ export async function fetchImagies(q, page = 1) {
         per_page: 40,
       },
     });
+
     return data;
   } catch (error) {
     console.log(error);
