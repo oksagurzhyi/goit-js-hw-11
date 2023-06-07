@@ -11,34 +11,43 @@ let totalPage = 0;
 
 refs.btnMore.style.display = 'none';
 
+const options = {
+  captionPosition: 'bottom',
+  captionDelay: 250,
+  captionsData: 'alt',
+};
+const lightbox = new SimpleLightbox('.gallery a', options);
+
 export async function onFormSubmit(event) {
-  event.preventDefault();
-  queryToFetch = event.currentTarget.elements.searchQuery.value.trim();
+  try {
+    event.preventDefault();
+    queryToFetch = event.currentTarget.elements.searchQuery.value.trim();
 
-  refs.divGallery.innerHTML = '';
-  page = 1;
+    refs.divGallery.innerHTML = '';
+    page = 1;
 
-  const result = await fetchImagies(queryToFetch);
-  console.log(result);
+    const result = await fetchImagies(queryToFetch);
+    console.log(result);
 
-  if (result.totalHits === 0) {
-    Notiflix.Notify.failure(`Sorry, we can't find ${queryToFetch}`);
+    if (result.totalHits === 0) {
+      Notiflix.Notify.failure(`Sorry, we can't find ${queryToFetch}`);
 
-    return;
+      return;
+    }
+    totalPage = Math.ceil(result.totalHits / 40);
+    console.log(totalPage);
+    if (totalPage > 1) {
+      refs.btnMore.style.display = 'inline-block';
+    }
+
+    creatImagies(result);
+
+    lightbox.refresh();
+
+    Notiflix.Notify.success(`Hooray! We found ${result.totalHits} images.`);
+  } catch (error) {
+    console.log(error);
   }
-  totalPage = Math.ceil(result.totalHits / 40);
-  if (totalPage > 1) {
-    refs.btnMore.style.display = 'inline-block';
-  }
-
-  creatImagies(result);
-  const options = {
-    captionPosition: 'bottom',
-    captionDelay: 250,
-    captionsData: 'alt',
-  };
-  const lightbox = new SimpleLightbox('.gallery a', options);
-  Notiflix.Notify.success(`Hooray! We found ${result.totalHits} images.`);
 }
 
 export async function onClickBtnLoadMore() {
@@ -48,8 +57,8 @@ export async function onClickBtnLoadMore() {
     const data = await fetchImagies(queryToFetch, page);
 
     creatImagies(data);
-    let gallery = new SimpleLightbox('.gallery a');
-    gallery.refresh();
+    lightbox.refresh();
+
     if (page === totalPage) {
       refs.btnMore.style.display = 'none';
 
